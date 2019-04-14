@@ -1,3 +1,3 @@
-﻿  소스.cpp
-c:\onedrive\대학\2학년\1학기\자료구조_김성열교수님\개인과제\과제4_미로찾기\mazefind\소스.cpp(101): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+﻿  MazeFind.cpp
+c:\onedrive\대학\2학년\1학기\자료구조_김성열교수님\개인과제\과제4_미로찾기\mazefind\mazefind.cpp(101): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
   MazeFind.vcxproj -> C:\OneDrive\대학\2학년\1학기\자료구조_김성열교수님\개인과제\과제4_미로찾기\MazeFind\Debug\MazeFind.exe
