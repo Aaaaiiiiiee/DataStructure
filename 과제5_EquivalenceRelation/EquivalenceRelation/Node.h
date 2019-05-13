@@ -3,14 +3,18 @@ class Node
 {
 private : 
 	Node * next;
-	const int key;
+	Node* before;
+	int key;
 public:
 	Node();
-	Node(const int& key);
+	Node(int key);
 	~Node();
 
 	void SetNext(Node* next);
+	void SetBefore(Node* before);
+	void SetKey(int key);
 	Node* GetNext();
+	Node* GetBefore();
 	int GetKey();
 };
 

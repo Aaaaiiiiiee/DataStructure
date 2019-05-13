@@ -7,7 +7,11 @@ LinkedList::LinkedList()
 	first = new Node();
 	end = new Node();
 	first->SetNext(end);
+	first->SetBefore(first);
 	end->SetNext(end);
+	end->SetBefore(first);
+	
+	current = first;	// current의 초기값은 first를 가르킴.
 }
 
 
@@ -24,36 +28,76 @@ LinkedList::~LinkedList()
 	delete tmp;
 }
 
-void LinkedList::Insert(int key, int index)
-{
-	// index번째 인덱스에 key값을 넣겠다.
-	Node* tmp = first;
-	for (int i = 0; i <= index; i++)
-		tmp->SetNext(tmp->GetNext());
-	// 현재 tmp의 next는 index번째 node.
+//void LinkedList::Insert(int index)
+//{
+//	Insert(false, index);
+//}
+//
+//void LinkedList::Insert(int key, int index)
+//{
+//	// index번째 인덱스에 key값을 넣겠다.
+//	Node* tmp = first->GetNext();
+//	for (int i = 0; i < index; i++)
+//		tmp = tmp->GetNext();
+//	// 현재 tmp의 next는 index번째 node.
+//
+//	Node* insert = new Node(key);
+//	insert->SetNext(tmp->GetNext());
+//	insert->SetBefore(tmp);
+//	tmp->SetNext(insert);
+//}
 
-	Node* insert = new Node(key);
-	insert->SetNext(tmp->GetNext());
-	tmp->SetNext(insert);
+void LinkedList::PushBack()
+{
+	PushBack(-1);
 }
 
+/*
+*	LinkedList::PushBack(int key)
+*	current 바로 다음에 push함.
+*/
 void LinkedList::PushBack(int key)
 {
-	Node* tmp = first;
-	while (tmp->GetNext() != end)
-		tmp->SetNext(tmp->GetNext());
-	// tmp가 end의 바로 전 것을 가르킬 때까지 반복
-	
 	Node* insert = new Node(key);
-	tmp->SetNext(insert);
-	insert->SetNext(end);
+	insert->SetNext(current->GetNext());
+	current->SetNext(insert);
+	current = insert;
 }
 
-int LinkedList::operator[](int index)
+/*
+*	LinkedList::operator[](int index)
+*	O(n)
+*/
+Node* LinkedList::operator[](int index)
 {
 	Node* tmp = first->GetNext();
 	for (int i = 0; i <= index; i++)
-		tmp->SetNext(tmp->GetNext());
+		tmp = tmp->GetNext();
 
-	return tmp->GetKey();
+	return tmp;
+}
+
+void LinkedList::MoveCurrentToFront()
+{
+	current = current->GetBefore();
+}
+
+void LinkedList::MoveCurrentToBack()
+{
+	current = current->GetNext();
+}
+
+void LinkedList::SetCurrentBegin()
+{
+	current = first;
+}
+
+Node* LinkedList::GetCurrent()
+{
+	return current;
+}
+
+Node * LinkedList::GetEnd()
+{
+	return end;
 }
