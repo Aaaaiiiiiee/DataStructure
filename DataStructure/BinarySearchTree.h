@@ -6,9 +6,9 @@ using namespace std;
 
 class BinarySearchTree
 {
-public:
+private : 
 	Node * root;
-	
+public:
 	BinarySearchTree();
 	~BinarySearchTree();
 
