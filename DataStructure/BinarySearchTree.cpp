@@ -2,6 +2,97 @@
 //#include <stack>
 #include <queue>
 
+//bool BinarySearchTree::SearchToInsert(Node *& node_new, Node *& parent)
+//{
+//	Node* tmp = root;
+//	parent = tmp;
+//	while (tmp != nullptr)	// O(log n)
+//	{
+//		if (tmp->GetKey() > node_new->GetKey())
+//		{
+//			parent = tmp;
+//			tmp = tmp->GetLeftNode();
+//		}
+//		else if (tmp->GetKey() < node_new->GetKey())
+//		{
+//			parent = tmp;
+//			tmp = tmp->GetRightNode();
+//		}
+//		else return false;	// 이미 해당 key값을 가진 Node가 존재하는 경우
+//	}
+//
+//	if (parent->GetKey() > node_new->GetKey())
+//		parent->SetLeftNode(node_new);
+//	else
+//		parent->SetRightNode(node_new);
+//
+//	// 어떤 sequence를 타던 leaf까지 무조건 내려가기 때문에, 중간에 삽입하는 경우를 걱정할 필요가 없음.
+//	// 단, 최악의 경우 linkedlist의 경우가 됨.
+//
+//	return true;	// Insert에 성공
+//
+//}
+//
+//bool BinarySearchTree::SearchToDelete(Node *& node_delete, Node *& parent, int & key)
+//{
+//	Node* tmp = root;
+//	parent = tmp;
+//
+//	while (tmp != nullptr)
+//	{
+//		if (tmp->GetKey() > key)
+//		{
+//			parent = tmp;
+//			tmp = tmp->GetLeftNode();
+//		}
+//		else if (tmp->GetKey() < key)
+//		{
+//			parent = tmp;
+//			tmp = tmp->GetRightNode();
+//		}
+//		else
+//		{
+//			node_delete = tmp;
+//			return true;
+//		}
+//	}
+//	return false;
+//}
+
+bool BinarySearchTree::SearchToInsertAndDelete(Node *& node, Node *& parent, bool insert_or_delete)
+{
+	Node* tmp = root;
+	parent = tmp;
+
+	while (tmp != nullptr)
+	{
+		if (tmp->GetKey() > node->GetKey())
+		{
+			parent = tmp;
+			tmp = tmp->GetLeftNode();
+		}
+		else if (tmp->GetKey() < node->GetKey())
+		{
+			parent = tmp;
+			tmp = tmp->GetRightNode();
+		}
+		else
+		{
+			if (!insert_or_delete)
+			{
+				delete node;
+				node = tmp;
+			}
+			return insert_or_delete ? false : true;	// Insert할 때의 경우 false 리턴 / Delete할 때의 경우 true 리턴
+		}
+	}
+
+	// 어떤 sequence를 타던 leaf까지 무조건 내려가기 때문에, 중간에 삽입하는 경우를 걱정할 필요가 없음.
+	// 단, 최악의 경우 linkedlist의 경우가 됨.
+
+	return insert_or_delete ? true : false;	// Insert할 때의 경우 true 리턴 / Delete할 때의 경우 false 리턴
+}
+
 BinarySearchTree::BinarySearchTree()
 	: root(nullptr)
 {
@@ -79,7 +170,7 @@ Node * BinarySearchTree::Search(int key)
 	return tmp;	// nullptr 반환. 탐색 실패.
 }
 
-bool BinarySearchTree::Push(int key)
+bool BinarySearchTree::Insert(int key)
 {
 	Node* node_new = new Node(key);
 	
@@ -89,45 +180,77 @@ bool BinarySearchTree::Push(int key)
 		root = node_new;
 		return true;
 	}
-	
-	Node* tmp = root;
-	Node* before = tmp;
-	while (tmp != nullptr)	// O(log n)
-	{
-		if (tmp->GetKey() > key)
-		{
-			before = tmp;
-			tmp = tmp->GetLeftNode();
-		}
-		else if (tmp->GetKey() < key)
-		{
-			before = tmp;
-			tmp = tmp->GetRightNode();
-		}
-		else return false;
-	}
-	if (before->GetKey() > key)
-		before->SetLeftNode(node_new);
-	else
-		before->SetRightNode(node_new);
 
-	return true;
+	Node* parent;
+	if (SearchToInsertAndDelete(node_new, parent, true))
+	{
+		if (parent->GetKey() > node_new->GetKey())
+			parent->SetLeftNode(node_new);
+		else
+			parent->SetRightNode(node_new);
+
+		return true;
+	}
+	else
+		return false;
 }
 
-//bool BinarySearchTree::Delete(int key)
-//{
-//	Node* node_delete = Search(key);
-//
-//	if (node_delete != nullptr)
-//	{
-//		delete node_delete;
-//		return true;
-//	}
-//	else
-//		return false;
-//}
+bool BinarySearchTree::Delete(int key)
+{
+	// child가 0,1,2개 일때 따져서 delete해야함.
+	Node* node_delete = new Node(key);
+	Node* parent;
 
-// child가 0,1,2개 일때 따져서 delete해야함.
+	if(SearchToInsertAndDelete(node_delete, parent, false))
+	{
+		Node* left_node = node_delete->GetLeftNode();
+		Node* right_node = node_delete->GetRightNode();
+		
+		if (left_node != nullptr && right_node == nullptr)	// 왼쪽에만 child가 존재할 때
+		{
+			if (parent->GetKey() > node_delete->GetKey())	// node_delete가 parent의 left_node일 때
+				parent->SetLeftNode(node_delete->GetLeftNode());
+			else											// node_delete가 parent Node의 right_node일 때
+				parent->SetRightNode(node_delete->GetLeftNode());
+		}
+		else if (left_node == nullptr && right_node != nullptr)	// 오른쪽에만 child가 존재할 때
+		{
+			if (parent->GetKey() > node_delete->GetKey())	// node_delete가 parent의 left_node일 때
+				parent->SetLeftNode(node_delete->GetRightNode());
+			else											// node_delete가 parent Node의 right_node일 때
+				parent->SetRightNode(node_delete->GetRightNode());
+		}
+		else if(left_node != nullptr && right_node != nullptr)	// 두곳 다 child가 존재할 때
+		{
+			Node* tmp = right_node;
+			// delete_node의 right_node 중에서 가장 작은 값을 찾아 tmp에 저장한다.
+			while (tmp->GetLeftNode() != nullptr)
+				tmp = tmp->GetLeftNode();
+			
+			// tmp를 delete_node의 parent Node와 연결시킨다.
+			if (parent->GetKey() > node_delete->GetKey())
+				parent->SetLeftNode(tmp);
+			else
+				parent->SetRightNode(tmp);
+			
+			// tmp의 left_node는 현재 없으므로, node_delete의 left_node를 tmp의 left_node로 둔다.
+			tmp->SetLeftNode(node_delete->GetLeftNode());
+
+			// delete_node의 right_node를 연결하기 위해, 현재 tmp에서 가장 큰 값을 찾아 tmp에 저장한다.
+			while (tmp->GetRightNode() != nullptr)
+				tmp = tmp->GetRightNode();
+			// tmp의 right_node로 node_delete의 right_node를 둔다.
+			tmp->SetRightNode(node_delete->GetRightNode());
+			
+			// cf) 크기 관계 : delete_node의 left_node < 가장 작은 값 tmp(parent와 연결한 tmp) < 가장 작은 값 tmp의 right_node < delete_node의 right_node
+			// 각각의 left_node와 right_node를 하나의 tree로 묶어서 생각해도 된다.
+		}
+		delete node_delete;
+		return true;
+	}
+	else
+		return false;
+}
 
 bool BinarySearchTree::DownTree(string sequence)
 {
