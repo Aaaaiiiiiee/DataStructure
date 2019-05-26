@@ -1,13 +1,3 @@
-﻿  AVLTree.cpp
-c:\onedrive\대학\2학년\1학기\자료구조_김성열교수님\datastructure\binarysearchtree.h(68): error C2535: 'void BinarySearchTree::PrintTree(Node *)': 멤버 함수를 이미 정의했거나 선언했습니다.
-  c:\onedrive\대학\2학년\1학기\자료구조_김성열교수님\datastructure\binarysearchtree.h(62): note: 'BinarySearchTree::PrintTree' 선언을 참조하십시오.
-  BinarySearchTree.cpp
-c:\onedrive\대학\2학년\1학기\자료구조_김성열교수님\datastructure\binarysearchtree.h(68): error C2535: 'void BinarySearchTree::PrintTree(Node *)': 멤버 함수를 이미 정의했거나 선언했습니다.
-  c:\onedrive\대학\2학년\1학기\자료구조_김성열교수님\datastructure\binarysearchtree.h(62): note: 'BinarySearchTree::PrintTree' 선언을 참조하십시오.
-c:\onedrive\대학\2학년\1학기\자료구조_김성열교수님\datastructure\binarysearchtree.cpp(260): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\onedrive\대학\2학년\1학기\자료구조_김성열교수님\datastructure\binarysearchtree.cpp(315): error C2084: 'void BinarySearchTree::PrintTree(Node *)' 함수에 이미 본문이 있습니다.
-  c:\onedrive\대학\2학년\1학기\자료구조_김성열교수님\datastructure\binarysearchtree.cpp(301): note: 'PrintTree'의 이전 정의를 참조하십시오.
-  BinarySearchTreeMain.cpp
-c:\onedrive\대학\2학년\1학기\자료구조_김성열교수님\datastructure\binarysearchtree.h(68): error C2535: 'void BinarySearchTree::PrintTree(Node *)': 멤버 함수를 이미 정의했거나 선언했습니다.
-  c:\onedrive\대학\2학년\1학기\자료구조_김성열교수님\datastructure\binarysearchtree.h(62): note: 'BinarySearchTree::PrintTree' 선언을 참조하십시오.
-  코드를 생성하고 있습니다...
+﻿  BinarySearchTree.cpp
+c:\onedrive\대학\2학년\1학기\자료구조_김성열교수님\datastructure\binarysearchtree.cpp(304): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  DataStructure.vcxproj -> C:\OneDrive\대학\2학년\1학기\자료구조_김성열교수님\DataStructure\Debug\DataStructure.exe

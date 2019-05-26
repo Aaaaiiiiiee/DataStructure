@@ -14,10 +14,10 @@ Node::Node(int key)
 
 Node::~Node()
 {
-	if(left_node != nullptr)
+	/*if(left_node != nullptr)
 		delete left_node;
 	if(right_node != nullptr)
-		delete right_node;
+		delete right_node;*/
 }
 
 Node * Node::GetLeftNode()

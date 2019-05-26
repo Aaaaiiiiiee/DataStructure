@@ -1,7 +1,6 @@
 #pragma once
 #include "Node.h"
 #include <string>
-#include <queue>
 #include <iostream>
 using namespace std;
 
@@ -20,7 +19,7 @@ private :
 	*	insert_or_delete가 false이면, Delete에 해당하는 값 반환(Delete할 수 있으면 true, 없으면 false)
 	*	BinarySearchTree::bool SearchToInsert, BinarySearchTree::bool SearchToDelete 참고
 	*/
-	bool SearchToInsertAndDelete(Node*& node, Node*& parent, bool insert_or_delete);
+	bool SearchToInsertAndDelete(Node*& node, Node*& parent, const bool& insert_or_delete);
 public:
 	BinarySearchTree();
 	~BinarySearchTree();
@@ -59,7 +58,6 @@ public:
 	*	전체 Tree 출력
 	*/
 	void PrintTree();
-	void PrintTree(Node* cur);
 
 	/*
 	*	BinarySearchTree void PrintTree(Node*)

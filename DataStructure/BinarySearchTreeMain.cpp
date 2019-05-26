@@ -1,4 +1,6 @@
 #include "BinarySearchTree.h"
+#include <cstdlib>
+#include <ctime>
 
 BinarySearchTree bst;
 
@@ -8,9 +10,11 @@ void Insert();
 void Delete();
 void DownTree();
 void PrintTree();
+void RandomInsert();
 
 int main(void)
 {
+	srand((unsigned int)time(NULL));
 	Menu();
 
 	return 0;
@@ -22,7 +26,7 @@ void Menu()
 	do
 	{
 		/*1.Search, 2.Insert 3.Delete 4.DownTree 5.Exit*/
-		cout << "1.Search / 2.Insert / 3.Delete / 4.DownTree / 5.PrintTree / 6.Exit : ";
+		cout << "1.Search / 2.Insert / 3.Delete / 4.DownTree / 5.PrintTree / 6.RandomInsert / 7.Exit : ";
 		cin >> ch;
 		switch (ch)
 		{
@@ -42,6 +46,9 @@ void Menu()
 			PrintTree();
 			break;
 		case '6' : 
+			RandomInsert();
+			break;
+		case '7' : 
 			cout << "Exit Program" << endl;
 			break;
 		default:
@@ -50,7 +57,7 @@ void Menu()
 			break;
 		}
 		cout << endl;
-	} while (ch != '6');
+	} while (ch != '7');
 }
 void Search()
 {
@@ -104,4 +111,15 @@ void PrintTree()
 {
 	cout << "-------------5.PrintTree-------------" << endl;
 	bst.PrintTree();
+}
+void RandomInsert()
+{
+	cout << "-------------6.RandomInsert-------------" << endl;
+	int num_rand = rand();
+	cout << "Random number " << num_rand << " will insert" << endl;
+
+	if (bst.Insert(num_rand))
+		cout << "Insert Success" << endl;
+	else
+		cout << "Insert Fail" << endl;
 }
