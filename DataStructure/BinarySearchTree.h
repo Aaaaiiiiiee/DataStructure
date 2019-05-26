@@ -1,6 +1,7 @@
 #pragma once
 #include "Node.h"
 #include <string>
+#include <queue>
 #include <iostream>
 using namespace std;
 
@@ -52,5 +53,18 @@ public:
 	*	false : 탐색 실패
 	*/
 	bool DownTree(string sequence);
+
+	/*
+	*	BinarySearchTree void PrintTree()
+	*	전체 Tree 출력
+	*/
+	void PrintTree();
+	void PrintTree(Node* cur);
+
+	/*
+	*	BinarySearchTree void PrintTree(Node*)
+	*	node_print까지의 sequence(Tree) 출력
+	*/
+	void PrintTree(Node* node_print);
 };
 

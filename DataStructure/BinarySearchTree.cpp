@@ -1,6 +1,6 @@
 #include "BinarySearchTree.h"
 //#include <stack>
-#include <queue>
+#include <iomanip>
 
 //bool BinarySearchTree::SearchToInsert(Node *& node_new, Node *& parent)
 //{
@@ -138,7 +138,7 @@ BinarySearchTree::~BinarySearchTree()
 	//}
 	
 	// root Node부터 시작하여 height별로 delete시켜줌. 
-	queue<Node*> cur_delete;
+	/*queue<Node*> cur_delete;
 	if (root != nullptr)
 	{
 		cur_delete.push(root);
@@ -152,8 +152,10 @@ BinarySearchTree::~BinarySearchTree()
 				cur_delete.push(tmp->GetRightNode());
 			delete tmp;
 		}
-	}
+	}*/
+	delete root;
 }
+// Node의 소멸자가 left_node, right_node delete인데 여기서 delete root만 하면 쭉 연쇄적으로 되는거 아니야? : 응 맞아..
 
 Node * BinarySearchTree::Search(int key)
 {
@@ -275,4 +277,56 @@ bool BinarySearchTree::DownTree(string sequence)
 	}
 	
 	return true;
+}
+
+void BinarySearchTree::PrintTree()
+{
+	if (root != nullptr)
+	{
+		cout << "root node " << root->GetKey() << endl;
+
+		if (root->GetLeftNode() != nullptr)
+			cout << root->GetKey() << " left_node " << root->GetLeftNode()->GetKey() << endl;
+		PrintTree(root->GetLeftNode());
+
+		if (root->GetRightNode() != nullptr)
+			cout << root->GetKey() << " right_node " << root->GetRightNode()->GetKey() << endl;
+		PrintTree(root->GetRightNode());
+	}
+	else
+		cout << "Node is not existed";
+	cout << endl;
+}
+
+void BinarySearchTree::PrintTree(Node* cur)
+{
+	if (cur == nullptr)	return;	//탈출 조건
+
+	if(cur->GetLeftNode() != nullptr)
+		cout << cur->GetKey() << " left_node " << cur->GetLeftNode()->GetKey() << endl;
+	PrintTree(cur->GetLeftNode());
+
+	if (cur->GetRightNode() != nullptr)
+		cout << cur->GetKey() << " right_node " << cur->GetRightNode()->GetKey() << endl;
+	PrintTree(cur->GetRightNode());
+}
+
+void BinarySearchTree::PrintTree(Node * node_print)
+{
+	Node* tmp = root;
+	cout << "root node" << root->GetKey() << endl;
+	while (tmp->GetKey() != node_print->GetKey())
+	{
+		cout << tmp->GetKey();
+		if (tmp->GetKey() > node_print->GetKey())
+		{
+			tmp = tmp->GetLeftNode();
+			cout << " left_node " << tmp->GetKey() << endl;
+		}
+		else if (tmp->GetKey() < node_print->GetKey())
+		{
+			tmp = tmp->GetRightNode();
+			cout << " right_node " << tmp->GetKey() << endl;
+		}
+	}
 }
